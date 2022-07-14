@@ -1,12 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
+import Header from './component/Header';
+import Landing from './component/Landing';
 
 function App() {
   return (
     <div className="App">
-        <div className='bg-info'>
-          this is meal app
-        </div>
+      <Header />
+      <Landing />
     </div>
   );
 }
