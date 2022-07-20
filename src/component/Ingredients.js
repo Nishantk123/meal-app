@@ -3,6 +3,7 @@ import axios from "axios";
 const Ingredients = () => {
   const [meal_data, setMealData] = useState([]);
   const [selected_meal, setSelectedMeal] = useState([])
+  const[loading,setLoading] = useState(false)
 
   useEffect(() => {
     getIngredientData();
@@ -14,6 +15,7 @@ const Ingredients = () => {
       .then((res) => {
         if (res.data) {
           setMealData(res.data.meals);
+          handleMeal(res.data.meals[0].strIngredient)
         }
       })
       .catch((err) => {
@@ -22,12 +24,16 @@ const Ingredients = () => {
   };
 
   const handleMeal = (data)=>{
+    setLoading(true)
     axios.get("https://www.themealdb.com/api/json/v1/1/filter.php?i="+ data)
     .then(res=>{
         setSelectedMeal(res.data.meals)
+        setLoading(false)
     })
     .catch(err=>{
         console.log(err)
+        setLoading(false)
+
     })
   }
 
@@ -47,7 +53,9 @@ const Ingredients = () => {
           </div>
         </div>
         <div className="col-sm-9">
-        {selected_meal.map((d, n) => {
+        {loading?
+        <div className="text-center my-3">Loading....</div>:
+        selected_meal.map((d, n) => {
               return (
                 <div className="card my-3" >
                   <div className="card-body">

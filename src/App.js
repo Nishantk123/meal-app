@@ -5,6 +5,7 @@ import Header from "./component/Header";
 import Landing from "./component/Landing";
 import Ingredients from "./component/Ingredients";
 import AreaMeal from "./component/AreaMeal";
+import CategoryMeal from "./component/CategoryMeal";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/ingredients" element={<Ingredients />} />
         <Route path="/area" element={<AreaMeal />} />
+        <Route path="/food_by_category/:name" element={<CategoryMeal />} />
       </Routes>
     </BrowserRouter>
     // <div className="App">

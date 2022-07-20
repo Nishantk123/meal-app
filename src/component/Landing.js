@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {useNavigate } from "react-router-dom";
+
 const Landing = () =>{
     const [foodList, setFoodList] = useState([])
-
+    const history = useNavigate()
     useEffect(()=>{
         getallFoodBycategory()
     },[])
@@ -15,6 +17,9 @@ const Landing = () =>{
                 setFoodList(res.data.categories)
             }
         })
+    }
+    const handleCategoryDetail = (category) =>{
+        history('/food_by_category/'+category)
     }
     console.log(foodList);
     return(
@@ -29,7 +34,7 @@ const Landing = () =>{
                             return(
                                 <div className="col-sm-3 my-3">
                                     <div className="card">
-                                        <div className="card-body">
+                                        <div className="card-body" onClick={()=> handleCategoryDetail(data.strCategory)}>
                                             <img className="w-100" src={data.strCategoryThumb} />
                                             <div className="category my-3">{data.strCategory}</div>
                                             <div className="description">{data.strCategoryDescription}</div>

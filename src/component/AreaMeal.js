@@ -4,6 +4,7 @@ const AreaMeal = () =>{
     const [area, setArea] = useState([])
     const [selectedArea, setSelectedArea] = useState("")
     const [meal_list, setMealList] = useState([])
+    const [loading, setLoading] = useState(false)
 
     useEffect (()=>{
         getArea()
@@ -20,6 +21,8 @@ const AreaMeal = () =>{
         .then(res =>{
                 if (res.data){
                     setArea(res.data.meals)
+                    console.log(res.data.meals[0]);
+                    setSelectedArea(res.data.meals[0].strArea)
                 }
         })
         .catch(err=>{
@@ -32,23 +35,28 @@ const AreaMeal = () =>{
     }
 
     const getFoodByArea = () =>{
+        setLoading(true)
         axios.get("https://www.themealdb.com/api/json/v1/1/filter.php?a="+ selectedArea)
         .then(res =>{
             console.log(res.data)
             if(res.data){
                 setMealList(res.data.meals)
+                setLoading(false)
+
             }
         })
         .catch(err =>{
             console.log(err)
+            setLoading(false)
+
 
         })
     }
-    console.log(meal_list);
+    console.log(selectedArea);
     return(
         <div className="container">
             
-            <select className="form-control my-3" onChange={(e)=> handleArea(e)}>
+            <select className="form-control my-3" onChange={(e)=> handleArea(e)} value={selectedArea}>
                 <option>select</option>
                 {
                     area.map((data, index)=>{
@@ -61,7 +69,8 @@ const AreaMeal = () =>{
             <div className="">
                     <div className="row">
                         {
-                           meal_list.map((data, index)=>{
+                            loading?<div className="text-center my-3"> Loading...</div>
+                           :meal_list.map((data, index)=>{
                             return(
                                 <div className="col-sm-3 my-3">
                                     <div className="card">
